@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
+import { Wrapper } from './UsersListItem.styles';
+import Grade from 'components/atoms/Grade/Grade';
+import Name from 'components/atoms/Name/Name';
 
 const UsersListItem = ({ userData: { average, name, attendance = '0%' } }) => {
   return (
-    <li>
-      <div>{average}</div>
-      <div>
-        <p>{name}</p>
-        <p>{attendance}</p>
-      </div>
-      <button>X</button>
-    </li>
+    <Wrapper>
+      <Grade average={average} />
+      <Name name={name} attendance={attendance} />
+    </Wrapper>
   );
 };
 
