@@ -1,16 +1,17 @@
-import { users } from 'data/users';
 import UsersListItem from 'components/molecules/UserListItem/UsersListItem';
-import { Wrapper, StyledList } from '../UsersList.styles';
+import { StyledList } from '../UsersList.styles';
+import { Title } from 'components/atoms/Title/Ttile';
 
-const UsersList = () => {
+const UsersList = ({ deleteUser, users }) => {
   return (
-    <Wrapper>
+    <>
+      <Title>Students list</Title>
       <StyledList>
         {users.map((userData, i) => (
-          <UsersListItem key={i} userData={userData} />
+          <UsersListItem key={i} userData={userData} deleteUser={deleteUser} />
         ))}
       </StyledList>
-    </Wrapper>
+    </>
   );
 };
 

@@ -1,12 +1,12 @@
 import { Wrapper } from './Name.styled';
-import Button from '../Button/Button';
+import DeleteButton from '../DeleteButton/DeleteButton';
 
-const Name = ({ name, attendance }) => {
+const Name = ({ name, attendance, deleteUser }) => {
   return (
     <Wrapper>
       <p>
         {name}
-        <Button />
+        <DeleteButton deleteUser={() => deleteUser(name)} />
       </p>
       <p>attendance: {attendance}</p>
     </Wrapper>
