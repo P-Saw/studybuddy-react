@@ -1,14 +1,18 @@
+import { useContext } from 'react';
 import UsersListItem from 'components/molecules/UserListItem/UsersListItem';
-import { StyledList } from '../UsersList.styles';
+import { StyledList } from './UsersList.styles';
 import { Title } from 'components/atoms/Title/Ttile';
+import { UsersContext } from 'providers/UsersProvider';
 
-const UsersList = ({ deleteUser, users }) => {
+const UsersList = () => {
+  const { users } = useContext(UsersContext);
+
   return (
     <>
       <Title>Students list</Title>
       <StyledList>
         {users.map((userData, i) => (
-          <UsersListItem key={i} userData={userData} deleteUser={deleteUser} />
+          <UsersListItem key={i} userData={userData} />
         ))}
       </StyledList>
     </>

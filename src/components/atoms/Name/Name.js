@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { Wrapper } from './Name.styled';
 import DeleteButton from '../DeleteButton/DeleteButton';
+import { UsersContext } from 'providers/UsersProvider';
 
-const Name = ({ name, attendance, deleteUser }) => {
+const Name = ({ name, attendance }) => {
+  const { deleteUser } = useContext(UsersContext);
+
   return (
     <Wrapper>
       <p>
