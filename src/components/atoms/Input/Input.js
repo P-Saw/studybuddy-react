@@ -7,7 +7,11 @@ export const Input = styled.input`
   box-shadow: -2px 4px 10px rgba(115, 124, 142, 0.09);
   border-radius: 25px;
 
-  &focus {
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.lightPurple};
+  }
+
+  &:focus {
     outline: none;
     box-shadow: -2px 4px 10px rgba(115, 124, 142, 0.3);
   }
