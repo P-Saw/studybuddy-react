@@ -26,7 +26,6 @@ const SearchBar = () => {
         <Input value={searchPhrase} onChange={(e) => setSearchPhrase(e.target.value)} name="Search" id="Search" placeholder="Search..." />
         {searchPhrase ? (
           <SearchResults>
-            ,0000
             {filteredStudents.length > 0 ? filteredStudents.map((student) => <li key={student.id}>{student.name}</li>) : <li>No results</li>}
           </SearchResults>
         ) : null}
