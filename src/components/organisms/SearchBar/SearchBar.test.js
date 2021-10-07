@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from 'test-utilis';
+import { render, screen, fireEvent } from 'test-utilis';
 import '@testing-library/jest-dom';
 import { setupServer } from 'msw/node';
 import { handlers } from 'mocks/handlers';

@@ -17,12 +17,12 @@ const Root = () => {
           <Wrapper>
             <Switch>
               <Route path="/" exact>
-                <Redirect to="/group" />
+                <Redirect to="/groups" />
               </Route>
               <Route path="/add-user">
                 <AddUser />
               </Route>
-              <Route path="/group/:id?">
+              <Route path="/groups/:id?">
                 <Dashboard />
               </Route>
             </Switch>

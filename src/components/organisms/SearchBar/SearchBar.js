@@ -10,7 +10,7 @@ const SearchBar = () => {
     items: filteredStudents,
     onInputValueChange: async ({ inputValue }) => {
       axios
-        .get(`/studentssearch/${inputValue}`)
+        .get(`/students/search/${inputValue}`)
         .then(({ data }) => setFilteredStudents(data.students))
         .catch((err) => setFilteredStudents([]));
     },
