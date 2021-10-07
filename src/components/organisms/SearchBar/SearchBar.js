@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Input } from 'components/atoms/Input/Input';
-import { SearchBarWrapper, SearchResults, SearchWrapper, StatusInfo } from './SearchBar.styles';
+import { SearchBarWrapper, SearchResults, SearchResultsItem, SearchWrapper, StatusInfo } from './SearchBar.styles';
+import { useCombobox } from 'downshift';
 import axios from 'axios';
 
 const SearchBar = () => {
-  const [searchPhrase, setSearchPhrase] = useState('');
   const [filteredStudents, setFilteredStudents] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`/studentssearch/${searchPhrase}`)
-      .then(({ data }) => setFilteredStudents(data.students))
-      .catch((err) => console.log(err));
-  }, [searchPhrase]);
+  const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, getInputProps, getComboboxProps, highlightedIndex, getItemProps } = useCombobox({
+    items: filteredStudents,
+    onInputValueChange: async ({ inputValue }) => {
+      axios
+        .get(`/studentssearch/${inputValue}`)
+        .then(({ data }) => setFilteredStudents(data.students))
+        .catch((err) => setFilteredStudents([]));
+    },
+  });
 
   return (
     <SearchBarWrapper>
@@ -22,13 +24,21 @@ const SearchBar = () => {
           <strong>Teacher</strong>
         </p>
       </StatusInfo>
-      <SearchWrapper>
-        <Input value={searchPhrase} onChange={(e) => setSearchPhrase(e.target.value)} name="Search" id="Search" placeholder="Search..." />
-        {searchPhrase ? (
-          <SearchResults>
-            {filteredStudents.length > 0 ? filteredStudents.map((student) => <li key={student.id}>{student.name}</li>) : <li>No results</li>}
+      <SearchWrapper {...getComboboxProps()}>
+        <Input {...getInputProps()} name="Search" id="Search" placeholder="Search..." />
+        {
+          <SearchResults isVisible={isOpen} {...getMenuProps()}>
+            {isOpen && filteredStudents.length > 0 ? (
+              filteredStudents.map((student, index) => (
+                <SearchResultsItem highlighted={highlightedIndex === index} {...getItemProps({ student, index })} key={student.id}>
+                  {student.name}
+                </SearchResultsItem>
+              ))
+            ) : (
+              <SearchResultsItem>No results</SearchResultsItem>
+            )}
           </SearchResults>
-        ) : null}
+        }
       </SearchWrapper>
     </SearchBarWrapper>
   );

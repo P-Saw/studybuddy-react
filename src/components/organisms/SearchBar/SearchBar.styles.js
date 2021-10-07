@@ -34,6 +34,7 @@ export const SearchWrapper = styled.div`
 `;
 
 export const SearchResults = styled.ul`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   border-radius: 25px;
   box-shadow: -2px 4px 10px rgba(115, 124, 142, 0.09);
   position: absolute;
@@ -47,18 +48,18 @@ export const SearchResults = styled.ul`
   padding: 20px;
   list-style: none;
   background-color: ${({ theme }) => theme.colors.white};
+`;
 
-  li {
-    font-size: ${({ theme }) => theme.fontSize.xl};
-    color: ${({ theme }) => theme.colors.blueGrey};
-    font-weight: 700;
-    padding: 10px 0;
-  }
-  li:not(:last-child) {
+export const SearchResultsItem = styled.li`
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  color: ${({ theme }) => theme.colors.blueGrey};
+  background-color: ${({ theme, highlighted }) => (highlighted ? theme.colors.lightPurple : theme.colors.white)};
+  font-weight: 700;
+  padding: 10px 0;
+  &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.colors.grey};
   }
-  li:hover,
-  li:focus {
+  &:hover {
     cursor: pointer;
     background-color: ${({ theme }) => theme.colors.lightPurple};
   }
