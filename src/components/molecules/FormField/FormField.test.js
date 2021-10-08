@@ -1,10 +1,9 @@
 import React from 'react';
-import '@testing-library/jest-dom';
 import FormField from './FormField';
-import { renderWithProviders } from 'helpers/renderWithProviders';
+import { render } from 'test-utils';
 
 describe('Form Field', () => {
   it('Renders the component', () => {
-    renderWithProviders(<FormField label="name" name="name" id="name" />);
+    render(<FormField label="name" name="name" id="name" />);
   });
 });

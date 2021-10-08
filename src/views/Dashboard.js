@@ -1,71 +1,59 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import UsersList from 'components/organisms/UsersList/UsersList';
-import { ViewWrapper } from 'components/molecules/ViewWrapper';
-import { Redirect, useParams } from 'react-router';
-import { Title } from 'components/atoms/Title/Ttile';
-import ModalGroupChoice from 'components/molecules/ModalGroupChoice/ModalGroupChoice';
-import { Button } from 'components/atoms/Button/Button';
+import React, { useEffect, useState } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import StudentsList from 'components/organisms/StudentsList/StudentsList';
+import { useStudents } from 'hooks/useStudents';
+import { GroupWrapper, TitleWrapper, Wrapper } from 'views/Dashboard.styles';
+import { Title } from 'components/atoms/Title/Title';
 import useModal from 'components/organisms/Modal/useModal';
+import StudentDetails from 'components/molecules/StudentDetails/StudentDetails';
 import Modal from 'components/organisms/Modal/Modal';
+import { Button } from 'components/atoms/Button/Button';
+import ModalGroupChoice from 'components/molecules/ModalGroupChoice/ModalGroupChoice';
 
 const Dashboard = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [currentStudent, setCurrentStudent] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [currentStudent, setCurrentStudent] = useState(null);
+  const { getGroups, getStudentById } = useStudents();
   const { id } = useParams();
-  const { showStudentModal, toggleStudentModal } = useModal();
+  const [showGroupModal, setShowGroupModal] = useState(false);
+  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const toggleModal = () => {
-    setShowModal(!showModal);
+    setShowGroupModal(!showGroupModal);
   };
 
   useEffect(() => {
-    axios
-      .get('/groups')
-      .then(({ data }) => setGroups(data.groups))
-      .catch((err) => console.log(err));
-  }, []);
+    (async () => {
+      const groups = await getGroups();
+      console.log(groups);
+      setGroups(groups);
+    })();
+  }, [getGroups]);
 
-  useEffect(() => {
-    axios
-      .get(`/groups/${id}`)
-      .then(({ data }) => setStudents(data.students))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
-
-  const getStudentById = async (id) => {
-    axios
-      .get(`/students/${id}`)
-      .then(({ data }) => setCurrentStudent(data.students))
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleOpenStudentDetails = async (id) => {
+    const student = await getStudentById(id);
+    setCurrentStudent(student);
+    handleOpenModal();
   };
 
-  const handleOpenStudentDetails = (id) => {
-    getStudentById(id);
-    toggleStudentModal();
-  };
-
-  if (!id && groups.length > 0) {
-    return <Redirect to={`/groups/${groups[0].id}`} />;
-  }
+  if (!id && groups.length > 0) return <Redirect to={`/group/${groups[0].id}`} />;
 
   return (
-    <>
-      <ViewWrapper>
-        <Title>
-          Group {id} <Button onClick={toggleModal}>Change group</Button>
-        </Title>
-        <UsersList handleOpenStudent={handleOpenStudentDetails} students={students} />
-        {showStudentModal ? <Modal toggleStudentModal={toggleStudentModal} currentStudent={currentStudent} /> : null}
-      </ViewWrapper>
-      {showModal ? <ModalGroupChoice groups={groups} toggleModal={toggleModal} /> : null}
-    </>
+    <Wrapper>
+      <GroupWrapper>
+        <TitleWrapper>
+          <Title as="h2">
+            Group {id} <Button onClick={toggleModal}>Change group</Button>
+          </Title>
+        </TitleWrapper>
+        <StudentsList handleOpenStudentDetails={handleOpenStudentDetails} />
+        <Modal isOpen={isOpen} handleClose={handleCloseModal}>
+          <StudentDetails student={currentStudent} />
+        </Modal>
+        {showGroupModal ? <ModalGroupChoice groups={groups} toggleModal={toggleModal} /> : null}
+      </GroupWrapper>
+    </Wrapper>
   );
 };
 

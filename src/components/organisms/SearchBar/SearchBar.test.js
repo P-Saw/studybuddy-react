@@ -1,8 +1,7 @@
-import { render, screen, fireEvent } from 'test-utilis';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent, waitFor } from 'test-utils';
 import { setupServer } from 'msw/node';
 import { handlers } from 'mocks/handlers';
-import SearchBar from './SearchBar';
+import { SearchBar } from './SearchBar';
 
 const server = setupServer(...handlers);
 
@@ -14,20 +13,26 @@ describe('Search Bar', () => {
   it('Renders the component', () => {
     render(<SearchBar />);
     screen.getByText('Teacher');
-    screen.getByPlaceholderText('Search...');
+    screen.getByPlaceholderText('Search');
   });
 
   it('Displays users when search phrase is matching', async () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText('Search...');
+    const input = screen.getByPlaceholderText('Search');
     fireEvent.change(input, { target: { value: 'ad' } });
+
     await screen.findByText(/Adam Romański/);
   });
 
-  it('Shows no results when there is no matches', async () => {
+  it('Hides the results when input is empty', async () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText('Search...');
-    fireEvent.change(input, { target: { value: 'qww' } });
-    await screen.findByText(/No results/);
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.change(input, { target: { value: 'ad' } });
+    await screen.findByText(/Adam Romański/);
+
+    fireEvent.change(input, { target: { value: '' } });
+    await waitFor(() => {
+      expect(screen.getByLabelText('results')).not.toBeVisible();
+    });
   });
 });

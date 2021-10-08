@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ViewWrapper } from '../ViewWrapper';
+import { ViewWrapper } from '../ViewWrapper/ViewWrapper';
 import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
@@ -14,6 +14,7 @@ export const Wrapper = styled.div`
 export const ModalContent = styled(ViewWrapper)`
   max-width: 300px;
   position: relative;
+  box-shadow: 0px -5px 25px -10px rgba(0, 0, 0, 0.3);
   h1 {
     text-align: center;
     margin-bottom: 35px;
@@ -30,7 +31,7 @@ export const StyledGroupLink = styled(Link)`
   text-decoration: none;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.xl};
-  color: ${({ theme }) => theme.colors.blueGrey};
+  color: ${({ theme }) => theme.colors.darkGrey};
   cursor: pointer;
   width: 100%;
   padding: 15px 0;
@@ -57,7 +58,7 @@ export const Close = styled.div`
     content: '';
     height: 25px;
     width: 2px;
-    background-color: ${({ theme }) => theme.colors.blueGrey};
+    background-color: ${({ theme }) => theme.colors.darkGrey};
   }
 
   &::before {

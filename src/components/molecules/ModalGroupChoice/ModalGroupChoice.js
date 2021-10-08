@@ -1,4 +1,4 @@
-import { Title } from 'components/atoms/Title/Ttile';
+import { Title } from 'components/atoms/Title/Title';
 import React from 'react';
 import { ModalContent, Wrapper, Close, Nav, StyledGroupLink } from './ModalGroupChoice.styles';
 
@@ -10,7 +10,7 @@ const ModalGroupChoice = ({ groups, toggleModal }) => {
         <Title>Select a group</Title>
         <Nav>
           {groups.map(({ id }) => (
-            <StyledGroupLink key={id} to={`/groups/${id}`} onClick={toggleModal}>
+            <StyledGroupLink key={id} to={`/group/${id}`} onClick={toggleModal}>
               {id}
             </StyledGroupLink>
           ))}

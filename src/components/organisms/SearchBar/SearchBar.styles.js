@@ -1,31 +1,36 @@
-import { Input } from 'components/atoms/Input/Input';
 import styled from 'styled-components';
+import { Input } from 'components/atoms/Input/Input';
 
 export const SearchBarWrapper = styled.div`
-  grid-row: 1/2;
-  grid-column: 2/3;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grey};
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.darkPurple};
   display: flex;
-  align-items: center;
   justify-content: flex-start;
-  gap: 20px;
-  padding: 0 40px;
+  align-items: center;
+  padding: 0 30px;
 
   ${Input} {
     font-size: ${({ theme }) => theme.fontSize.xl};
     width: 100%;
     max-width: 350px;
-    border: 2px solid ${({ theme }) => theme.colors.lightPurple};
-    color: ${({ theme }) => theme.colors.blueGrey};
+    border: 1px solid ${({ theme }) => theme.colors.lightPurple};
+    color: ${({ theme }) => theme.colors.darkGrey};
+    font-weight: 400;
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.darkPurple};
+      font-weight: 400;
+    }
   }
 `;
 
 export const StatusInfo = styled.div`
-  color: ${({ theme }) => theme.colors.blueGrey};
+  color: ${({ theme }) => theme.colors.darkGrey};
   font-size: ${({ theme }) => theme.fontSize.l};
+  margin-right: 40px;
 
   p {
-    margin: 0;
+    margin: 5px;
   }
 `;
 
@@ -41,7 +46,7 @@ export const SearchResults = styled.ul`
   max-height: 400px;
   overflow: hidden;
   overflow-y: scroll;
-  top: 30px;
+  top: 40px;
   border: 2px solid ${({ theme }) => theme.colors.lightPurple};
   z-index: 100;
   width: 100%;
@@ -52,7 +57,7 @@ export const SearchResults = styled.ul`
 
 export const SearchResultsItem = styled.li`
   font-size: ${({ theme }) => theme.fontSize.xl};
-  color: ${({ theme }) => theme.colors.blueGrey};
+  color: ${({ theme }) => theme.colors.darkGrey};
   background-color: ${({ theme, highlighted }) => (highlighted ? theme.colors.lightPurple : theme.colors.white)};
   font-weight: 700;
   padding: 10px 0;

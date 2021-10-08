@@ -22,15 +22,14 @@ const UsersProvider = ({ children }) => {
     setUsers(filteredUsers);
   };
 
-  const handleAddUser = (data) => {
+  const handleAddUser = (values) => {
     const newUser = {
-      name: data.name,
-      attendance: data.attendance,
-      average: data.average,
+      name: values.name,
+      attendance: values.attendance,
+      average: values.average,
     };
     setUsers([newUser, ...users]);
   };
-
   return (
     <UsersContext.Provider
       value={{
