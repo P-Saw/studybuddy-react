@@ -1,49 +1,64 @@
 import { rest } from 'msw';
-import { students } from 'mocks/data/students';
-import { groups } from 'mocks/data/groups';
+import { db } from 'mocks/db';
 
 export const handlers = [
   rest.get('/students/search/:query', (req, res, ctx) => {
     if (req.params.query) {
-      const filteredStudents = students.filter((student) => student.name.toLowerCase().includes(req.params.query.toLowerCase()));
+      const filteredStudents = db.student.findMany({
+        where: {
+          name: {
+            contains: req.params.query,
+          },
+        },
+      });
       return res(
         ctx.status(200),
         ctx.json({
           students: filteredStudents,
         })
       );
-    } else {
-      return [];
     }
-  }),
-
-  rest.get('/groups', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        groups,
-      })
-    );
-  }),
-
-  rest.get('/groups/:id', (req, res, ctx) => {
-    if (req.params.id) {
-      const matchingStudents = students.filter((student) => student.group === req.params.id);
-      return res(ctx.status(200), ctx.json({ students: matchingStudents }));
-    }
-
-    return res(ctx.status(200), ctx.json({ students }));
   }),
 
   rest.get('/students/:id', (req, res, ctx) => {
     if (req.params.id) {
-      const matchingStudent = students.find((student) => student.id === req.params.id);
+      const matchingStudent = db.student.findFirst({
+        where: {
+          id: {
+            equals: req.params.id,
+          },
+        },
+      });
       if (!matchingStudent) {
         return res(ctx.status(404), ctx.json({ error: 'No matching student' }));
       }
       return res(ctx.status(200), ctx.json({ students: matchingStudent }));
     }
 
-    return res(ctx.status(200), ctx.json({ students }));
+    return res(ctx.status(200), ctx.json({ students: db.student }));
+  }),
+
+  rest.get('/groups', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        groups: db.group.getAll(),
+      })
+    );
+  }),
+
+  rest.get('/groups/:id', (req, res, ctx) => {
+    if (req.params.id) {
+      const matchingStudents = db.student.findMany({
+        where: {
+          group: {
+            equals: req.params.id,
+          },
+        },
+      });
+      return res(ctx.status(200), ctx.json({ students: matchingStudents }));
+    }
+
+    return res(ctx.status(404), ctx.json({ error: 'Please provide the group ID' }));
   }),
 ];

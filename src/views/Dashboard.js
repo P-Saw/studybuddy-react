@@ -52,7 +52,7 @@ const Dashboard = () => {
   };
 
   if (!id && groups.length > 0) {
-    return <Redirect to={`/groups/${groups[0]}`} />;
+    return <Redirect to={`/groups/${groups[0].id}`} />;
   }
 
   return (

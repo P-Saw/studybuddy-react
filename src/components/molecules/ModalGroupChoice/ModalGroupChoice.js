@@ -9,9 +9,9 @@ const ModalGroupChoice = ({ groups, toggleModal }) => {
         <Close onClick={toggleModal} />
         <Title>Select a group</Title>
         <Nav>
-          {groups.map((group) => (
-            <StyledGroupLink key={group} to={`/groups/${group}`} onClick={toggleModal}>
-              {group}
+          {groups.map(({ id }) => (
+            <StyledGroupLink key={id} to={`/groups/${id}`} onClick={toggleModal}>
+              {id}
             </StyledGroupLink>
           ))}
         </Nav>
