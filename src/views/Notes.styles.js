@@ -15,7 +15,7 @@ export const FormWrapper = styled.div`
   background: ${({ theme }) => theme.colors.white};
   border-radius: 25px;
   width: 100%;
-  height: 80%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
